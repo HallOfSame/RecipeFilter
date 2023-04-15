@@ -84,7 +84,7 @@ function tryShowPopup() {
 }
 
 // check the blocklist to see if we should run on this site
-const storageGetPromise = storage.sync.get(document.location.hostname);
+const storageGetPromise = browser.storage.sync.get(document.location.hostname);
 
 storageGetPromise.then((items) => {
 	if (!(document.location.hostname in items)) {

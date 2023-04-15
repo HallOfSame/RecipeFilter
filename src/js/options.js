@@ -1,3 +1,8 @@
+/*
+	This file only runs on the options page
+	References html/options.html
+*/
+
 function removeSiteFromBlocklist(e) {
 	const removePromise = storage.sync.remove(e.target.id);
 	// After remove, delete from the table
@@ -7,19 +12,29 @@ function removeSiteFromBlocklist(e) {
 }
 
 // Loads the current settings & builds a table to display the blocklist
-storage.sync.get(null, function (data) {
-	let rowMarkup = '';
-	let selectors = [];
+browser.storage.sync.get(null, function (data) {
+	const selectors = [];
 
+	const blocklistTable = document.querySelector('#blocklist tbody');
+
+	// Build the table from storage data
 	for (site in data) {
-		rowMarkup += `<tr>
-			<td id="${site}" class="trash-cell" style="cursor:pointer;">&#9447;</td>
-			<td>${site}</td>
-		</tr>`;
+		const row = document.createElement('tr');
+		const leftCell = document.createElement('td');
+		const rightCell = document.createElement('td');
+
+		leftCell.textContent = `&#9447;`;
+		leftCell.style = "cursor:pointer;";
+		leftCell.classList.add("trash-cell");
+		leftCell.id = site;
+
+		rightCell.textContent = site;
+		row.appendChild(leftCell);
+		row.appendChild(rightCell);
+		blocklistTable.appendChild(row);
 		selectors.push(`[id="${site}"]`);
 	}
-	// TODO need to secure this assignment
-	document.querySelector('#blocklist tbody').innerHTML = rowMarkup;
+
 	document.querySelectorAll(selectors.join(',')).forEach((td) => {
 		td.addEventListener('click', removeSiteFromBlocklist);
 	});
