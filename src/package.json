@@ -1,0 +1,24 @@
+{
+  "name": "recipe-filter-ext",
+  "version": "1.0.0",
+  "description": "RecipeFilter for Firefox",
+  "main": "index.js",
+  "scripts": {
+    "build": "web-ext build",
+    "lint": "web-ext lint",
+    "debug": "web-ext run --firefox=deved"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HallOfSame/RecipeFilter.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/HallOfSame/RecipeFilter/issues"
+  },
+  "homepage": "https://github.com/HallOfSame/RecipeFilter#readme",
+  "dependencies": {
+    "web-ext": "^7.6.1"
+  }
+}

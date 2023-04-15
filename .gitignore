@@ -9,3 +9,5 @@ xcuserdata/
 timeline.xctimeline
 playground.xcworkspace
 .build/
+src/node_modules
+*.crx
