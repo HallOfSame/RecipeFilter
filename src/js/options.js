@@ -1,10 +1,13 @@
-function remove(e){
-	chrome.storage.sync.remove(e.target.id, function(){
+function removeSiteFromBlocklist(e) {
+	const removePromise = storage.sync.remove(e.target.id);
+	// After remove, delete from the table
+	removePromise.then(() => {
 		e.target.parentElement.parentElement.removeChild(e.target.parentElement)
 	});
 }
 
-chrome.storage.sync.get(null, function(data){
+// Loads the current settings & builds a table to display the blocklist
+storage.sync.get(null, function (data) {
 	let rowMarkup = '';
 	let selectors = [];
 
@@ -15,8 +18,9 @@ chrome.storage.sync.get(null, function(data){
 		</tr>`;
 		selectors.push(`[id="${site}"]`);
 	}
-	document.querySelector('#blacklist tbody').innerHTML = rowMarkup;
+	// TODO need to secure this assignment
+	document.querySelector('#blocklist tbody').innerHTML = rowMarkup;
 	document.querySelectorAll(selectors.join(',')).forEach((td) => {
-		td.addEventListener('click', remove);
+		td.addEventListener('click', removeSiteFromBlocklist);
 	});
 });

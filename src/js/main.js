@@ -23,25 +23,25 @@ disableButton.classList.add('_rfbtn');
 disableButton.textContent = 'disable on this site';
 
 const controls = document.createElement('div');
-controls.id  = '_rf_header';
+controls.id = '_rf_header';
 controls.appendChild(closeButton);
 controls.appendChild(document.createTextNode('Recipe Filter'));
 controls.appendChild(disableButton);
 
-function hidePopup(){
+function hidePopup() {
 	let highlight = document.getElementById('_rf_highlight');
 	highlight.style.transition = 'opacity 400ms';
 	highlight.style.opacity = 0;
 
-	setTimeout(function() {
+	setTimeout(function () {
 		highlight.parentNode.removeChild(highlight);
 	}, 400);
 }
 
-function showPopup(){
-	recipe_selectors.every(function(s){
+function tryShowPopup() {
+	recipe_selectors.every(function (s) {
 		let original = document.querySelector(s);
-		if (original){
+		if (original) {
 			// clone the matched element
 			let clone = original.cloneNode(true);
 			clone.id = '_rf_highlight';
@@ -55,16 +55,15 @@ function showPopup(){
 
 			// handle the two new buttons we attached to the popup
 			closeButton.addEventListener('click', hidePopup);
-			disableButton.addEventListener('click', function(b){
-				chrome.storage.sync.set({[document.location.hostname]: true}, hidePopup);
+			disableButton.addEventListener('click', function (b) {
+				chrome.storage.sync.set({ [document.location.hostname]: true }, hidePopup);
 			});
 
 			// add an event listener for clicking outside the recipe to close it
-			let mouseUpHide = function(e) {
-				if (e.target !== clone && !clone.contains(e.target) && event.target.type !== 'submit')
-				{
-						hidePopup();
-						document.removeEventListener('mouseup', mouseUpHide);
+			let mouseUpHide = function (e) {
+				if (e.target !== clone && !clone.contains(e.target) && event.target.type !== 'submit') {
+					hidePopup();
+					document.removeEventListener('mouseup', mouseUpHide);
 				}
 			};
 			document.addEventListener('mouseup', mouseUpHide);
@@ -84,9 +83,12 @@ function showPopup(){
 	});
 }
 
-// check the blacklist to see if we should run on this site
-chrome.storage.sync.get(document.location.hostname, function(items) {
+// check the blocklist to see if we should run on this site
+const storageGetPromise = storage.sync.get(document.location.hostname);
+
+storageGetPromise.then((items) => {
 	if (!(document.location.hostname in items)) {
-		showPopup();
+		// If not blocked, attempt to find the popup
+		tryShowPopup();
 	}
 });
