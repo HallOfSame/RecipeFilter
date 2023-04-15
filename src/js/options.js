@@ -4,7 +4,7 @@
 */
 
 function removeSiteFromBlocklist(e) {
-	const removePromise = storage.sync.remove(e.target.id);
+	const removePromise = browser.storage.sync.remove(e.target.id);
 	// After remove, delete from the table
 	removePromise.then(() => {
 		e.target.parentElement.parentElement.removeChild(e.target.parentElement)
@@ -23,7 +23,7 @@ browser.storage.sync.get(null, function (data) {
 		const leftCell = document.createElement('td');
 		const rightCell = document.createElement('td');
 
-		leftCell.textContent = `&#9447;`;
+		leftCell.textContent = `\u0078`;
 		leftCell.style = "cursor:pointer;";
 		leftCell.classList.add("trash-cell");
 		leftCell.id = site;
