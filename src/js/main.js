@@ -61,12 +61,13 @@ function tryShowPopup() {
 
 			// add an event listener for clicking outside the recipe to close it
 			let mouseUpHide = function (e) {
-				if (e.target !== clone && !clone.contains(e.target) && event.target.type !== 'submit') {
+				if (e.target !== clone && !clone.contains(e.target) && e.target.type !== 'submit') {
 					hidePopup();
 					document.removeEventListener('mouseup', mouseUpHide);
 				}
 			};
 			document.addEventListener('mouseup', mouseUpHide);
+			document.addEventListener('keydown', (e) => {if (e.key == "Escape") hidePopup()});
 
 			window.setTimeout(() => {
 				// fade in
