@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/HallOfSame/RecipeFilter#readme",
   "dependencies": {
-    "web-ext": "^7.6.1"
+    "web-ext": "^8.3.0"
   }
 }
