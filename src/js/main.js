@@ -10,6 +10,7 @@ recipe_selectors = [
 	'.mv-recipe-card',
 	'div[itemtype="http://schema.org/Recipe"]',
 	'div[itemtype="https://schema.org/Recipe"]',
+	'div.recipediv',
 ]
 
 const closeButton = document.createElement('button');
